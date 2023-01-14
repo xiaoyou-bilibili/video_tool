@@ -18,10 +18,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFormLayout,
     QFrame, QGridLayout, QGroupBox, QLabel,
-    QListWidgetItem, QMainWindow, QMenu, QMenuBar,
-    QProgressBar, QPushButton, QSizePolicy, QSpacerItem,
-    QSpinBox, QStatusBar, QTabWidget, QTextEdit,
-    QVBoxLayout, QWidget)
+    QLineEdit, QListWidgetItem, QMainWindow, QMenu,
+    QMenuBar, QProgressBar, QPushButton, QRadioButton,
+    QSizePolicy, QSpacerItem, QSpinBox, QStatusBar,
+    QTabWidget, QTextEdit, QVBoxLayout, QWidget)
 
 from ui.components import QListDrag
 
@@ -89,9 +89,19 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.label_3, 0, 0, 1, 1)
 
+        self.radioButton = QRadioButton(self.groupBox)
+        self.radioButton.setObjectName(u"radioButton")
+
+        self.gridLayout_2.addWidget(self.radioButton, 1, 1, 1, 1)
+
         self.verticalSpacer_2 = QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.gridLayout_2.addItem(self.verticalSpacer_2, 1, 0, 1, 1)
+        self.gridLayout_2.addItem(self.verticalSpacer_2, 1, 2, 1, 1)
+
+        self.label_7 = QLabel(self.groupBox)
+        self.label_7.setObjectName(u"label_7")
+
+        self.gridLayout_2.addWidget(self.label_7, 1, 0, 1, 1)
 
 
         self.verticalLayout_4.addLayout(self.gridLayout_2)
@@ -111,12 +121,33 @@ class Ui_MainWindow(object):
         self.tab.setObjectName(u"tab")
         self.verticalLayout_5 = QVBoxLayout(self.tab)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(2, 2, 2, 2)
         self.gridLayout_3 = QGridLayout()
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.checkBox = QCheckBox(self.tab)
-        self.checkBox.setObjectName(u"checkBox")
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.gridLayout_3.addWidget(self.checkBox, 0, 0, 1, 1)
+        self.gridLayout_3.addItem(self.verticalSpacer_3, 2, 0, 1, 1)
+
+        self.combo_sub = QComboBox(self.tab)
+        self.combo_sub.addItem("")
+        self.combo_sub.setObjectName(u"combo_sub")
+
+        self.gridLayout_3.addWidget(self.combo_sub, 1, 2, 1, 1)
+
+        self.check_sub_mp4 = QCheckBox(self.tab)
+        self.check_sub_mp4.setObjectName(u"check_sub_mp4")
+
+        self.gridLayout_3.addWidget(self.check_sub_mp4, 1, 3, 1, 1)
+
+        self.label_8 = QLabel(self.tab)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.gridLayout_3.addWidget(self.label_8, 1, 0, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.gridLayout_3.addItem(self.horizontalSpacer, 1, 4, 1, 1)
 
 
         self.verticalLayout_5.addLayout(self.gridLayout_3)
@@ -168,12 +199,77 @@ class Ui_MainWindow(object):
         self.tab_option.addTab(self.tab_2, "")
         self.tab_3 = QWidget()
         self.tab_3.setObjectName(u"tab_3")
+        self.verticalLayout_7 = QVBoxLayout(self.tab_3)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(2, 2, 2, 2)
+        self.formLayout_3 = QFormLayout()
+        self.formLayout_3.setObjectName(u"formLayout_3")
+        self.label_9 = QLabel(self.tab_3)
+        self.label_9.setObjectName(u"label_9")
+
+        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.label_9)
+
+        self.combo_extra_audio = QComboBox(self.tab_3)
+        self.combo_extra_audio.addItem("")
+        self.combo_extra_audio.setObjectName(u"combo_extra_audio")
+
+        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.combo_extra_audio)
+
+
+        self.verticalLayout_7.addLayout(self.formLayout_3)
+
         self.tab_option.addTab(self.tab_3, "")
         self.tab_4 = QWidget()
         self.tab_4.setObjectName(u"tab_4")
+        self.verticalLayout_8 = QVBoxLayout(self.tab_4)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_8.setContentsMargins(2, 2, 2, 2)
+        self.formLayout_4 = QFormLayout()
+        self.formLayout_4.setObjectName(u"formLayout_4")
+        self.label_10 = QLabel(self.tab_4)
+        self.label_10.setObjectName(u"label_10")
+
+        self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.label_10)
+
+        self.edit_real_addr = QLineEdit(self.tab_4)
+        self.edit_real_addr.setObjectName(u"edit_real_addr")
+
+        self.formLayout_4.setWidget(0, QFormLayout.FieldRole, self.edit_real_addr)
+
+        self.label_12 = QLabel(self.tab_4)
+        self.label_12.setObjectName(u"label_12")
+
+        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.label_12)
+
+        self.radio_save_img = QRadioButton(self.tab_4)
+        self.radio_save_img.setObjectName(u"radio_save_img")
+
+        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.radio_save_img)
+
+
+        self.verticalLayout_8.addLayout(self.formLayout_4)
+
         self.tab_option.addTab(self.tab_4, "")
         self.tab_5 = QWidget()
         self.tab_5.setObjectName(u"tab_5")
+        self.verticalLayout_9 = QVBoxLayout(self.tab_5)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.verticalLayout_9.setContentsMargins(2, 2, 2, 2)
+        self.formLayout_5 = QFormLayout()
+        self.formLayout_5.setObjectName(u"formLayout_5")
+        self.label_11 = QLabel(self.tab_5)
+        self.label_11.setObjectName(u"label_11")
+
+        self.formLayout_5.setWidget(0, QFormLayout.LabelRole, self.label_11)
+
+        self.edit_whisper = QLineEdit(self.tab_5)
+        self.edit_whisper.setObjectName(u"edit_whisper")
+
+        self.formLayout_5.setWidget(0, QFormLayout.FieldRole, self.edit_whisper)
+
+
+        self.verticalLayout_9.addLayout(self.formLayout_5)
+
         self.tab_option.addTab(self.tab_5, "")
 
         self.gridLayout.addWidget(self.tab_option, 1, 1, 1, 1)
@@ -272,7 +368,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tab_option.setCurrentIndex(1)
+        self.tab_option.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -292,8 +388,13 @@ class Ui_MainWindow(object):
 
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u8f6c\u7801\u7ebf\u7a0b:", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u786c\u4ef6\u52a0\u901f:", None))
+        self.radioButton.setText("")
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u5b8c\u6210\u540e\u5173\u673a:", None))
         self.btn_start.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb", None))
-        self.checkBox.setText(QCoreApplication.translate("MainWindow", u"\u5f3a\u5236\u8f6c\u7801\u4e3amp4", None))
+        self.combo_sub.setItemText(0, QCoreApplication.translate("MainWindow", u"ass", None))
+
+        self.check_sub_mp4.setText(QCoreApplication.translate("MainWindow", u"\u8f93\u51famp4", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u5b57\u5e55\u7c7b\u578b:", None))
         self.tab_option.setTabText(self.tab_option.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u5185\u5d4c\u5b57\u5e55", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u89c6\u9891\u7f16\u7801:", None))
         self.combo_video.setItemText(0, QCoreApplication.translate("MainWindow", u"libx264", None))
@@ -310,8 +411,17 @@ class Ui_MainWindow(object):
         self.combo_auido.setItemText(2, QCoreApplication.translate("MainWindow", u"none", None))
 
         self.tab_option.setTabText(self.tab_option.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u683c\u5f0f\u8f6c\u6362", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u683c\u5f0f:", None))
+        self.combo_extra_audio.setItemText(0, QCoreApplication.translate("MainWindow", u"mp3", None))
+
         self.tab_option.setTabText(self.tab_option.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u63d0\u53d6", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u670d\u52a1\u5730\u5740:", None))
+        self.edit_real_addr.setText(QCoreApplication.translate("MainWindow", u"http://192.168.1.10:8209", None))
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u56fe\u7247:", None))
+        self.radio_save_img.setText("")
         self.tab_option.setTabText(self.tab_option.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"\u89c6\u9891\u8d85\u5206", None))
+        self.label_11.setText(QCoreApplication.translate("MainWindow", u"\u670d\u52a1\u5730\u5740:", None))
+        self.edit_whisper.setText(QCoreApplication.translate("MainWindow", u"http://192.168.1.10:8210", None))
         self.tab_option.setTabText(self.tab_option.indexOf(self.tab_5), QCoreApplication.translate("MainWindow", u"\u5b57\u5e55\u751f\u6210", None))
         self.group_log.setTitle(QCoreApplication.translate("MainWindow", u"\u6267\u884c\u65e5\u5fd7", None))
         self.text_edit_log.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

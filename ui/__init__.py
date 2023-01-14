@@ -8,6 +8,8 @@ from ui.main import Ui_MainWindow
 from core.ffmpeg import FfmpegBase, execute_ffmpeg_cmd, get_ext
 from core.util import remove_file
 from threading import Thread, Lock
+from core.real import video_real_esr_gan
+from core.whisper import whisper
 
 
 # 自定义信号，用于更新UI操作
@@ -72,6 +74,10 @@ class MainWindow(QtWidgets.QMainWindow):  # 继承QMainWindow
     def set_status(self, text: str):
         self._sign.status.emit(text)
 
+    # 设置当前进度
+    def set_current_process(self, process: int):
+        self._sign.current_progress.emit(process)
+
     # 设置总进度
     def set_global_process(self, index: int, size: int):
         self._sign.global_progress.emit(int(float(index + 1) / float(size) * 100))
@@ -121,10 +127,61 @@ class MainWindow(QtWidgets.QMainWindow):  # 继承QMainWindow
         # 转换前把旧的文件删除
         new_path = path.replace(name, new_name)
         remove_file(new_path)
-        self.add_log("开始转换 {}...".format(name))
+        self.add_log("{} 转换中...".format(name))
         execute_ffmpeg_cmd(base.hard, base.thread, path, new_path,
                            "{} {}".format(video_format, audio_format), self.set_process)
         self.add_log("{} 转换完成!".format(name))
+
+    # 视频内嵌字幕
+    def video_sub_title(self, path, name):
+        base = self.get_base_option()
+        # 获取字幕类型
+        sub_type = self._ui.combo_sub.currentText()
+        # 是否转换为mp4
+        if self._ui.check_sub_mp4.isChecked():
+            fmt = "-c:v h264 -c:a aac"
+        else:
+            fmt = "-vf"
+        # 路径设置
+        names = name.split(".")
+        name = names[0]
+        ext = names[-1]
+        new_path = path.replace(name, "new_{}".format(name))
+        remove_file(new_path)
+        sub = path.replace(ext, sub_type).replace(":/", "\\\\:/")
+        # 只转换特定类型
+        if ext not in ["mp4", "mkv", "rmvb"]:
+            return
+        self.add_log("{} 内嵌字幕中...".format(name))
+        execute_ffmpeg_cmd(base.hard, base.thread, path, new_path, "{} \"subtitles={}\"".format(fmt, sub),
+                           self.set_process)
+        self.add_log("{} 字幕内嵌完成!".format(name))
+
+    # 音频提取
+    def audio_extra(self, path, name):
+        base = self.get_base_option()
+        audio_type = self._ui.combo_extra_audio.currentText()
+        ext = name.split(".")[-1]
+        new_path = path.replace(ext, audio_type)
+        self.add_log("{} 提取音频中...".format(name))
+        execute_ffmpeg_cmd(base.hard, base.thread, path, new_path, "-f {} -vn".format(audio_type),
+                           self.set_process)
+        self.add_log("{} 音频提取完成!".format(name))
+
+    # 视频超分
+    def video_real(self, path, name):
+        host = self._ui.edit_real_addr.text()
+        save_img = self._ui.radio_save_img.isChecked()
+        self.add_log("{} 超分辨率中...".format(name))
+        video_real_esr_gan(path, name, host, save_img, self.set_current_process)
+        self.add_log("{} 超分辨率完成!".format(name))
+
+    # 字幕生成
+    def video_whisper(self, path, name):
+        host = self._ui.edit_whisper.text()
+        self.add_log("{} 字幕生成中...".format(name))
+        whisper(path, name, host, self.add_log)
+        self.add_log("{} 字幕生成完成!".format(name))
 
     # 批量操作
     def bath_option(self, option):
@@ -135,11 +192,20 @@ class MainWindow(QtWidgets.QMainWindow):  # 继承QMainWindow
         self._ui.btn_start.setDisabled(True)
         size = len(all_path)
         for index, path in enumerate(all_path):
-            print(index, path)
             # 提取出文件名
             name = path.split("/")[-1]
-            if option == 1:
+            if option == 0:
+                self.video_sub_title(path, name)
+            elif option == 1:
                 self.video_convert(path, name)
+            elif option == 2:
+                self.add_log("音频提取不支持当前进度显示，请以日志信息为准!")
+                self.audio_extra(path, name)
+            elif option == 3:
+                self.video_real(path, name)
+            elif option == 4:
+                self.add_log("字幕生成不支持当前进度显示，请以日志信息为准!")
+                self.video_whisper(path, name)
             # 转换完毕后设置一下总体进度
             self.set_global_process(index, size)
         self._ui.btn_start.setDisabled(False)

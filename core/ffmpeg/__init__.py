@@ -57,7 +57,7 @@ def execute_ffmpeg_cmd(hwaccel: str, threads: int, input: str, out: str, cmd: st
         hwaccel = "-hwaccel {}".format(hwaccel)
     cmd = "ffmpeg {} -threads {} -i {} {} -progress pipe:1 {}".format(hwaccel, threads, input, cmd, out)
     print("cmd is {}".format(cmd))
-    process = sp.Popen(shlex.split(cmd), stdout=sp.PIPE)
+    process = sp.Popen(cmd, stdout=sp.PIPE)
     # 创建一个数组来保存参数
     q = [0, 0, '']
     progress_reader_thread = Thread(target=progress_reader, args=(process, q))  # Initialize progress reader thread
