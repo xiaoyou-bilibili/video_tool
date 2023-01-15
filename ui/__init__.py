@@ -1,8 +1,10 @@
+import os
 import sys
 import time
 
 from PySide6 import QtWidgets, QtCore
-from PySide6.QtWidgets import QFileDialog
+from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtWidgets import QFileDialog, QMessageBox
 
 from ui.main import Ui_MainWindow
 from core.ffmpeg import FfmpegBase, execute_ffmpeg_cmd, get_ext
@@ -41,6 +43,8 @@ class MainWindow(QtWidgets.QMainWindow):  # 继承QMainWindow
         self._ui.action_clear.triggered.connect(self.clear_items)
         # 添加文件
         self._ui.action_add.triggered.connect(self.add_files)
+        # 关于
+        self._ui.action_info.triggered.connect(self.about_info)
 
     def _set_current_progress(self, progress: int):
         self._ui.progress_current.setValue(progress)
@@ -91,6 +95,10 @@ class MainWindow(QtWidgets.QMainWindow):  # 继承QMainWindow
         file_dialog = QFileDialog()
         file_list = file_dialog.getOpenFileNames(self, "待操作的文件")  # 选择目录，返回选中的路径
         self._ui.list_files.add_path(file_list[0])
+
+    # 关于软件
+    def about_info(self):
+        QMessageBox.information(self, '关于软件', '作者：小游\nB站：@小-游\ngithub：@xiaoyou66')
 
     # 获取ffmpeg的基本参数
     def get_base_option(self) -> FfmpegBase:
@@ -162,11 +170,24 @@ class MainWindow(QtWidgets.QMainWindow):  # 继承QMainWindow
         base = self.get_base_option()
         audio_type = self._ui.combo_extra_audio.currentText()
         ext = name.split(".")[-1]
-        new_path = path.replace(ext, audio_type)
-        self.add_log("{} 提取音频中...".format(name))
-        execute_ffmpeg_cmd(base.hard, base.thread, path, new_path, "-f {} -vn".format(audio_type),
-                           self.set_process)
-        self.add_log("{} 音频提取完成!".format(name))
+        audio_path = path.replace(ext, audio_type)
+        new_path = path.replace(name, "new_{}".format(name))
+        # 判断操作
+        if self._ui.combo_audio_option.currentText() == "音频提取":
+            self.add_log("{} 提取音频中...".format(name))
+            if audio_type == "mp3":
+                execute_ffmpeg_cmd(base.hard, base.thread, path, audio_path, "-f {} -vn".format(audio_type),
+                                   self.set_process)
+            elif audio_type == "aac":
+                execute_ffmpeg_cmd(base.hard, base.thread, path, audio_path, "-c:a {} -vn".format(audio_type),
+                                   self.set_process)
+            self.add_log("{} 音频提取完成!".format(name))
+        else:
+            self.add_log("{} 音频封装中...".format(name))
+            execute_ffmpeg_cmd(base.hard, base.thread, path, new_path,
+                               "-i {} -vcodec copy -acodec copy".format(audio_path),
+                               self.set_process)
+            self.add_log("{} 音频封装完成!".format(name))
 
     # 视频超分
     def video_real(self, path, name):
@@ -185,6 +206,7 @@ class MainWindow(QtWidgets.QMainWindow):  # 继承QMainWindow
 
     # 批量操作
     def bath_option(self, option):
+        self._sign.global_progress.emit(0)
         self.add_log("开始任务")
         # 获取所有路径
         all_path = self._ui.list_files.get_all_path()
@@ -211,6 +233,13 @@ class MainWindow(QtWidgets.QMainWindow):  # 继承QMainWindow
         self._ui.btn_start.setDisabled(False)
         self.add_log("任务完成!")
         self.set_status("")
+        self.task_finish()
+
+    # 任务完成后操作
+    def task_finish(self):
+        print("任务完成")
+        if self._ui.radio_shutdown.isChecked():
+            os.system('shutdown -s -t 1')
 
     def start(self):
         index = self.get_user_option()
@@ -220,8 +249,12 @@ class MainWindow(QtWidgets.QMainWindow):  # 继承QMainWindow
 # 显示主窗口
 def show_main_window():
     app = QtWidgets.QApplication([])
+    # 图标
+    icon = QIcon()
+    icon.addPixmap(QPixmap("./logo.svg"), QIcon.Normal,QIcon.Off)
     # 启动主窗口
     window = MainWindow()
     window.show()
-    window.setWindowTitle("视频小工具 by:小游")
+    window.setWindowTitle("视频小工具")
+    window.setWindowIcon(icon)
     sys.exit(app.exec_())

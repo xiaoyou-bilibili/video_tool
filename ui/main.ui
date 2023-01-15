@@ -130,7 +130,7 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QRadioButton" name="radioButton">
+              <widget class="QRadioButton" name="radio_shutdown">
                <property name="text">
                 <string/>
                </property>
@@ -363,7 +363,7 @@
           </widget>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
-            <string>音频提取</string>
+            <string>音频操作</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_7">
             <property name="leftMargin">
@@ -392,6 +392,32 @@
                 <item>
                  <property name="text">
                   <string>mp3</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>aac</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>音频操作:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QComboBox" name="combo_audio_option">
+                <item>
+                 <property name="text">
+                  <string>音频提取</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>音频封装</string>
                  </property>
                 </item>
                </widget>

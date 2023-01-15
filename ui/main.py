@@ -89,10 +89,10 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.label_3, 0, 0, 1, 1)
 
-        self.radioButton = QRadioButton(self.groupBox)
-        self.radioButton.setObjectName(u"radioButton")
+        self.radio_shutdown = QRadioButton(self.groupBox)
+        self.radio_shutdown.setObjectName(u"radio_shutdown")
 
-        self.gridLayout_2.addWidget(self.radioButton, 1, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.radio_shutdown, 1, 1, 1, 1)
 
         self.verticalSpacer_2 = QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -211,9 +211,22 @@ class Ui_MainWindow(object):
 
         self.combo_extra_audio = QComboBox(self.tab_3)
         self.combo_extra_audio.addItem("")
+        self.combo_extra_audio.addItem("")
         self.combo_extra_audio.setObjectName(u"combo_extra_audio")
 
         self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.combo_extra_audio)
+
+        self.label_13 = QLabel(self.tab_3)
+        self.label_13.setObjectName(u"label_13")
+
+        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.label_13)
+
+        self.combo_audio_option = QComboBox(self.tab_3)
+        self.combo_audio_option.addItem("")
+        self.combo_audio_option.addItem("")
+        self.combo_audio_option.setObjectName(u"combo_audio_option")
+
+        self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.combo_audio_option)
 
 
         self.verticalLayout_7.addLayout(self.formLayout_3)
@@ -388,7 +401,7 @@ class Ui_MainWindow(object):
 
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u8f6c\u7801\u7ebf\u7a0b:", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u786c\u4ef6\u52a0\u901f:", None))
-        self.radioButton.setText("")
+        self.radio_shutdown.setText("")
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u5b8c\u6210\u540e\u5173\u673a:", None))
         self.btn_start.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb", None))
         self.combo_sub.setItemText(0, QCoreApplication.translate("MainWindow", u"ass", None))
@@ -413,8 +426,13 @@ class Ui_MainWindow(object):
         self.tab_option.setTabText(self.tab_option.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u683c\u5f0f\u8f6c\u6362", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u683c\u5f0f:", None))
         self.combo_extra_audio.setItemText(0, QCoreApplication.translate("MainWindow", u"mp3", None))
+        self.combo_extra_audio.setItemText(1, QCoreApplication.translate("MainWindow", u"aac", None))
 
-        self.tab_option.setTabText(self.tab_option.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u63d0\u53d6", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u64cd\u4f5c:", None))
+        self.combo_audio_option.setItemText(0, QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u63d0\u53d6", None))
+        self.combo_audio_option.setItemText(1, QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u5c01\u88c5", None))
+
+        self.tab_option.setTabText(self.tab_option.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u97f3\u9891\u64cd\u4f5c", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u670d\u52a1\u5730\u5740:", None))
         self.edit_real_addr.setText(QCoreApplication.translate("MainWindow", u"http://192.168.1.10:8209", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u56fe\u7247:", None))
